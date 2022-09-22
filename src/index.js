@@ -14,7 +14,7 @@ exports.searchByArg = () => {
   }
 
   if (countArg) {
-    results = !filterArg ? count(results, data) : count(results);
+    results = !filterArg ? count(data) : count(results);
   }
 
   return results;
