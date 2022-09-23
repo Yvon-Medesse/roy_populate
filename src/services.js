@@ -1,6 +1,5 @@
 const filter = (value, data = []) => {
   let results = [];
-  const regex = RegExp(value);
 
   // we want to filter the list based on animals
 
@@ -17,17 +16,14 @@ const filter = (value, data = []) => {
         let population = element.people[peopIn];
 
         if (population.animals) {
-          const matchedAnimals = population.animals.filter(({ name }) =>
-            regex.test(name)
-          );
+          const matchedAnimals = getMatchedAnimals(population.animals, value);
 
           if (matchedAnimals.length > 0) {
-            const newMatched = { ...population, animals: matchedAnimals };
-
             // population, For the first time when there are animals that name's contain the pattern,
             // we add the current pepole and animals matched list to the global results
-
             // if it's not the first time, we just push pepole and animals matched list to the current element ( population ) of global results
+
+            const newMatched = { ...population, animals: matchedAnimals };
 
             if (firstTimeMatched) {
               results.push({
@@ -64,9 +60,10 @@ const performPeople = (element) => {
       name: formatName(people.name, people.animals),
     }));
   }
-
-  return;
 };
+
+const getMatchedAnimals = (animals, value) =>
+  animals.filter(({ name }) => RegExp(value).test(name));
 
 module.exports = {
   filter,
